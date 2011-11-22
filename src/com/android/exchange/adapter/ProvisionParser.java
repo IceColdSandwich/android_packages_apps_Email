@@ -70,12 +70,14 @@ public class ProvisionParser extends Parser {
         while (nextTag(Tags.PROVISION_EAS_PROVISION_DOC) != END) {
             switch (tag) {
                 case Tags.PROVISION_DEVICE_PASSWORD_ENABLED:
-                    if (getValueInt() == 1) {
-                        if (passwordMode == PolicySet.PASSWORD_MODE_NONE) {
-                            passwordMode = PolicySet.PASSWORD_MODE_SIMPLE;
-                        }
-                    }
-                    break;
+//BEGIN DAL
+//                	if (getValueInt() == 1) {
+//                        if (passwordMode == PolicySet.PASSWORD_MODE_NONE) {
+//                            passwordMode = PolicySet.PASSWORD_MODE_SIMPLE;
+//                        }
+//                    }
+//END DAL
+                	break;
                 case Tags.PROVISION_MIN_DEVICE_PASSWORD_LENGTH:
                     minPasswordLength = getValueInt();
                     break;
@@ -181,7 +183,10 @@ public class ProvisionParser extends Parser {
                 }
             }
         }
-        return passwordRequired;
+        //BEGIN DAL
+        //return passwordRequired;
+        return false;
+        //END DAL
     }
 
     void parseCharacteristic(XmlPullParser parser, ShadowPolicySet sps)

@@ -1308,7 +1308,18 @@ public class EasSyncService extends AbstractSyncService {
                 }
             } else {
                 // Notify that we are blocked because of policies
-                sp.policiesRequired(mAccount.mId);
+                // DAL
+            	//sp.policiesRequired(mAccount.mId);
+                // Write the final policy key to the Account and say we've been successful
+                String policyKey = acknowledgeProvision(pp.getPolicyKey(), PROVISION_STATUS_OK);
+                if (policyKey != null) {
+                    // Write the final policy key to the Account and say we've been successful
+                    ps.writeAccount(mAccount, policyKey, true, mContext);
+                    // Release any mailboxes that might be in a security hold
+                    SyncManager.releaseSecurityHold(mAccount);
+                    return true;
+                }
+                // END DAL
             }
         }
         return false;
